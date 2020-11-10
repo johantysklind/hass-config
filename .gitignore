@@ -1,0 +1,6 @@
+.HA_VERSION
+.storage/
+*.db*
+*.log
+.cloud/
+.vscode/

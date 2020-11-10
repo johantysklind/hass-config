@@ -1,0 +1,55 @@
+homeassistant:
+  name: Hem
+  unit_system: metric
+  time_zone: Europe/Stockholm
+  packages: !include_dir_named include
+
+
+# Configure a default setup of Home Assistant (frontend, api, etc)
+default_config:
+
+# Text to speech
+tts:
+  - platform: google_translate
+
+lovelace:
+  mode: yaml
+
+#group: !include groups.yaml
+#automation: !include automations.yaml
+#script: !include scripts.yaml
+#scene: !include scenes.yaml
+
+discovery:
+
+sensor:
+  - platform: time_date
+    display_options:
+      ['time', 'date']
+    
+input_number:
+  sourceid:
+    name: SourceId
+    initial: 0
+    min: 0
+    max: 4
+    step: 1
+    
+  sovrumflag:
+    name: Sovrum Flag
+    initial: 0
+    min: 0
+    max: 10
+    step: 1
+
+  btest:
+    name: btest
+    initial: 0
+    min: 0
+    max: 100
+    step: 1    
+    
+input_text:
+  sovrumf:
+    name: Sovrum Flag
+    initial: O

@@ -1,0 +1,16 @@
+- id: '1605018588122'
+  alias: New Automation
+  description: ''
+  trigger:
+  - device_id: d2a1d5e5c9b9424af1bb57fe648cf268
+    domain: deconz
+    platform: device
+    type: remote_button_short_press
+    subtype: turn_on
+  condition: []
+  action:
+  - type: turn_on
+    device_id: f93bf62f05cab719212b808e6358c0c9
+    entity_id: light.dimmable_light_11
+    domain: light
+  mode: single

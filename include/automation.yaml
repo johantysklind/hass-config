@@ -1,0 +1,105 @@
+automation:
+  ####################################################
+  #                                                  #
+  #                     Linda Button                 #
+  #                                                  #
+  ####################################################
+  - alias: Sovrum Linda Turn On 2.0
+    variables:
+      lamp1: '{{states(''input_text.lindasbedlamp'')}}'
+      lamp2: '{{states(''input_text.rooflamp'')}}'
+      lamp3: '{{states(''input_text.johansbedlamp'')}}'
+    trigger:
+      - device_id: d2a1d5e5c9b9424af1bb57fe648cf268
+        domain: deconz
+        platform: device
+        type: remote_button_short_press
+        subtype: turn_on
+    condition: []
+    action:
+      - service: script.turn_on_light
+        data:
+          light: >
+            {% if    states(lamp1) == 'off' %} {{lamp1}}
+            {% elif states(lamp2) == 'off'  %} {{lamp2}}
+            {% else %} {{lamp3}}
+            {% endif %} 
+    mode: single 
+
+  - alias: Sovrum Linda Turn Off 2.0
+    variables:
+      lamp1: '{{states(''input_text.lindasbedlamp'')}}'
+      lamp2: '{{states(''input_text.rooflamp'')}}'
+      lamp3: '{{states(''input_text.johansbedlamp'')}}'
+    trigger:
+      - device_id: d2a1d5e5c9b9424af1bb57fe648cf268
+        domain: deconz
+        platform: device
+        type: remote_button_short_press
+        subtype: turn_off
+    condition: []
+    action:
+      - service: script.turn_off_light
+        data:
+          light: >
+            {% if    states(lamp3) == 'on' %} {{lamp3}}
+            {% elif states(lamp2) == 'on'  %} {{lamp2}}
+            {% else %} {{lamp1}}
+            {% endif %} 
+    mode: single    
+
+
+
+
+
+  ####################################################
+  #                                                  #
+  #                     Johan Button                 #
+  #                                                  #
+  ####################################################
+  - alias: Sovrum Johan Turn On 2.0
+    variables:
+      lamp1: '{{states(''input_text.johansbedlamp'')}}'
+      lamp2: '{{states(''input_text.rooflamp'')}}'
+      lamp3: '{{states(''input_text.lindasbedlamp'')}}'
+    trigger:
+      - device_id: accf0c5ff38a642279f9ec8e86f4dbfe
+        domain: deconz
+        platform: device
+        type: remote_button_short_press
+        subtype: turn_on
+    condition: []
+    action:
+      - service: script.turn_on_light
+        data:
+          light: >
+            {% if    states(lamp1) == 'off' %} {{lamp1}}
+            {% elif states(lamp2) == 'off'  %} {{lamp2}}
+            {% else %} {{lamp3}}
+            {% endif %} 
+    mode: single 
+
+  - alias: Sovrum Johan Turn Off 2.0
+    variables:
+      lamp1: '{{states(''input_text.johansbedlamp'')}}'
+      lamp2: '{{states(''input_text.rooflamp'')}}'
+      lamp3: '{{states(''input_text.lindasbedlamp'')}}'
+    trigger:
+      - device_id: accf0c5ff38a642279f9ec8e86f4dbfe
+        domain: deconz
+        platform: device
+        type: remote_button_short_press
+        subtype: turn_off
+    condition: []
+    action:
+      - service: script.turn_off_light
+        data:
+          light: >
+            {% if    states(lamp3) == 'on' %} {{lamp3}}
+            {% elif states(lamp2) == 'on'  %} {{lamp2}}
+            {% else %} {{lamp1}}
+            {% endif %} 
+    mode: single    
+
+
+

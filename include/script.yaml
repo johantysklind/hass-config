@@ -1,0 +1,51 @@
+script:
+
+  ####################################################
+  #                                                  #
+  #                     SCRIPTS                      #
+  #                                                  #
+  ####################################################
+
+  #=====================MAIN=========================#
+  reload_customs:
+    alias: Reload devloped code
+    mode: single
+    sequence:
+      - service: input_text.reload
+        data: {}
+      - service: automation.reload
+        data: {}
+      - service: script.reload
+        data: {}
+
+
+
+
+
+
+  #=====================BEDROOM=======================#
+  turn_on_light:
+    alias: Turn on light
+    fields:
+      light:
+        description: Light entity_id
+        example: light.family_room_lamp
+    mode: restart
+    sequence:
+      - service: light.turn_on
+        data:
+          entity_id: "{{ light }}"
+          brightness: 200
+
+          
+  turn_off_light:
+    alias: Turn off light
+    fields:
+      light:
+        description: Light entity_id
+        example: light.family_room_lamp
+    mode: restart
+    sequence:
+      - service: light.turn_off
+        data:
+          entity_id: "{{ light }}"
