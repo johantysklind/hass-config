@@ -184,7 +184,7 @@ automation:
             {% endif %} 
     mode: single    
 
-  #================== DIMMING ============================================# 
+  #================== DIMMING 2============================================# 
   - alias: Sovrum Johan Dim Up
     variables:
       lamp1: '{{states(''input_text.johansbedlamp'')}}'
