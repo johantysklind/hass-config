@@ -10,7 +10,9 @@ input_text:
     initial: light.dimmable_light_11
   rooflamp:
     initial: light.dimmable_light_13_i5
-
+  sovrumf:
+    name: Sovrum Flag
+    initial: O
 
 
 input_boolean:
@@ -52,7 +54,7 @@ input_number:
 
   light_delay_ms:
     name: 'Step the lights this often (ms)'
-    initial: 500
+    initial: 100
     min: 100
     max: 5000
     step: 100

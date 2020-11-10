@@ -49,7 +49,3 @@ input_number:
     max: 100
     step: 1    
     
-input_text:
-  sovrumf:
-    name: Sovrum Flag
-    initial: O

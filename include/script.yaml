@@ -21,8 +21,47 @@ script:
 
 
 
+  test:
+    alias: TEST
+    fields:
+      light:
+        description: Light entity_id
+        example: light.family_room_lamp
+    mode: restart
+    sequence:
+      - service: light.turn_on
+        data:
+          entity_id: "{{ light | join(', ') }}"
+
+  test2:
+    alias: TEST 2
+    mode: restart
+    sequence:
+      - service: script.turn_on
+        entity_id: script.test_1
+        data:
+          variables:
+            light_name: 
+              - light.dimmable_light_11
+              - light.dimmable_light_12_i6
+  test_1:
+    alias: Test 1
+    description: 'test 1'
+    fields:
+      light_name:
+        description: 'Name of light to act on'
+        example: 'light.living_room'
+      direction:
+        description : 'tst'
+    sequence:
+      - service: light.turn_on
+        data_template:
+          entity_id: "{{ light_name}}"
+        data:
+          brightness: 10
 
 
+       
   #=====================BEDROOM=======================#
   turn_on_light:
     alias: Turn on light
@@ -49,3 +88,47 @@ script:
       - service: light.turn_off
         data:
           entity_id: "{{ light }}"
+
+
+          
+
+  ramp_light:
+    alias: Ramp Light Brightness
+    description: Ramp light brightness up or down
+    fields:
+      direction:
+        description: "Direction to change brightness: up or down"
+        example: up
+      light:
+        description: Light entity_id
+        example: light.family_room_lamp
+    mode: restart
+    sequence:
+      - repeat:
+          while:
+            - condition: template
+              value_template: >
+                {% set obj = light.split(', ')[0] %}
+                {% set br = state_attr(obj, 'brightness')|int(0) %}
+                {% set mn = states('input_number.light_minimum')|int %}
+                {% set mx = states('input_number.light_maximum')|int %}
+                {{ direction == 'up' and br < mx or
+                    direction == 'down' and br > mn }}
+          sequence:
+            - service: light.turn_on
+              data_template:
+                entity_id: "{{ light}}"
+              data:
+                brightness: >
+                  {% set obj = light.split(', ')[0]  %}
+                  {% set br = state_attr(obj, 'brightness')|int(0) %}
+                  {% set mn = states('input_number.light_minimum')|int %}
+                  {% set mx = states('input_number.light_maximum')|int %}
+                  {% set st = states('input_number.light_step')|int %}
+                  {% if direction == 'up' %}
+                    {{ [br + st, mx]|min }}
+                  {% else %}
+                    {{ [br - st, mn]|max }}
+                  {% endif %}
+            - delay:
+                milliseconds: "{{ states('input_number.light_delay_ms')|int }}"          

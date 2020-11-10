@@ -47,10 +47,93 @@ automation:
             {% else %} {{lamp1}}
             {% endif %} 
     mode: single    
+   
+
+   #================== DIMMING ============================================# 
+  - alias: Sovrum Linda Dim Up
+    variables:
+      lamp1: '{{states(''input_text.lindasbedlamp'')}}'
+      lamp2: '{{states(''input_text.rooflamp'')}}'
+      lamp3: '{{states(''input_text.johansbedlamp'')}}'
+    trigger:
+    - device_id: d2a1d5e5c9b9424af1bb57fe648cf268
+      domain: deconz
+      platform: device
+      type: remote_button_long_press
+      subtype: turn_on
+    condition: []
+    action:
+    - service: input_boolean.toggle
+      data: {}
+      entity_id: input_boolean.button_pressed
+    - service: script.turn_on
+      entity_id: script.ramp_light
+      data:
+        variables:
+          direction: up
+          light: >
+            {% set lamps = [lamp1,lamp2,lamp3] %}
+            {% for e in lamps %}{% if loop.first or  states(e) == 'off' %}{% else %}, {% endif %}{% if states(e) == 'on' %}{{e}}{%endif%}{% endfor %}
+    mode: single
+
+  - alias: Sovrum Linda Dim Down
+    variables:
+      lamp1: '{{states(''input_text.lindasbedlamp'')}}'
+      lamp2: '{{states(''input_text.rooflamp'')}}'
+      lamp3: '{{states(''input_text.johansbedlamp'')}}'
+    trigger:
+    - device_id: d2a1d5e5c9b9424af1bb57fe648cf268
+      domain: deconz
+      platform: device
+      type: remote_button_long_press
+      subtype: turn_off
+    condition: []
+    action:
+    - service: input_boolean.toggle
+      data: {}
+      entity_id: input_boolean.button_pressed
+    - service: script.turn_on
+      entity_id: script.ramp_light
+      data:
+        variables:
+          direction: down
+          light: >
+            {% set lamps = [lamp1,lamp2,lamp3] %}
+            {% for e in lamps %}{% if loop.first or  states(e) == 'off' %}{% else %}, {% endif %}{% if states(e) == 'on' %}{{e}}{%endif%}{% endfor %}
+    mode: single
 
 
+  - alias: Sovrum Linda Dim Up Stop
+    trigger:
+    - device_id: d2a1d5e5c9b9424af1bb57fe648cf268
+      domain: deconz
+      platform: device
+      type: remote_button_long_release
+      subtype: turn_on
+    condition: []
+    action:
+    - service: input_boolean.toggle
+      data: {}
+      entity_id: input_boolean.button_pressed
+    - service: script.turn_off
+      entity_id: script.ramp_light
+    mode: single
 
-
+  - alias: Sovrum Linda Dim Up Stop
+    trigger:
+    - device_id: d2a1d5e5c9b9424af1bb57fe648cf268
+      domain: deconz
+      platform: device
+      type: remote_button_long_release
+      subtype: turn_off
+    condition: []
+    action:
+    - service: input_boolean.toggle
+      data: {}
+      entity_id: input_boolean.button_pressed
+    - service: script.turn_off
+      entity_id: script.ramp_light
+    mode: single
 
   ####################################################
   #                                                  #
@@ -101,5 +184,89 @@ automation:
             {% endif %} 
     mode: single    
 
+  #================== DIMMING ============================================# 
+  - alias: Sovrum Johan Dim Up
+    variables:
+      lamp1: '{{states(''input_text.johansbedlamp'')}}'
+      lamp2: '{{states(''input_text.rooflamp'')}}'
+      lamp3: '{{states(''input_text.lindasbedlamp'')}}'
+    trigger:
+    - device_id: accf0c5ff38a642279f9ec8e86f4dbfe
+      domain: deconz
+      platform: device
+      type: remote_button_long_press
+      subtype: turn_on
+    condition: []
+    action:
+    - service: input_boolean.toggle
+      data: {}
+      entity_id: input_boolean.button_pressed
+    - service: script.turn_on
+      entity_id: script.ramp_light
+      data:
+        variables:
+          direction: up
+          light: >
+            {% set lamps = [lamp1,lamp2,lamp3] %}
+            {% for e in lamps %}{% if loop.first or  states(e) == 'off' %}{% else %}, {% endif %}{% if states(e) == 'on' %}{{e}}{%endif%}{% endfor %}
+    mode: single
 
+  - alias: Sovrum Linda Dim Down
+    variables:
+      lamp1: '{{states(''input_text.johansbedlamp'')}}'
+      lamp2: '{{states(''input_text.rooflamp'')}}'
+      lamp3: '{{states(''input_text.lindasbedlamp'')}}'
+    trigger:
+    - device_id: accf0c5ff38a642279f9ec8e86f4dbfe
+      domain: deconz
+      platform: device
+      type: remote_button_long_press
+      subtype: turn_off
+    condition: []
+    action:
+    - service: input_boolean.toggle
+      data: {}
+      entity_id: input_boolean.button_pressed
+    - service: script.turn_on
+      entity_id: script.ramp_light
+      data:
+        variables:
+          direction: down
+          light: >
+            {% set lamps = [lamp1,lamp2,lamp3] %}
+            {% for e in lamps %}{% if loop.first or  states(e) == 'off' %}{% else %}, {% endif %}{% if states(e) == 'on' %}{{e}}{%endif%}{% endfor %}
+    mode: single
+
+
+  - alias: Sovrum Johan Dim Up Stop
+    trigger:
+    - device_id: d2a1d5e5c9b9424af1bb57fe648cf268
+      domain: deconz
+      platform: device
+      type: remote_button_long_release
+      subtype: turn_on
+    condition: []
+    action:
+    - service: input_boolean.toggle
+      data: {}
+      entity_id: input_boolean.button_pressed
+    - service: script.turn_off
+      entity_id: script.ramp_light
+    mode: single
+
+  - alias: Sovrum Johan Dim Up Stop
+    trigger:
+    - device_id: d2a1d5e5c9b9424af1bb57fe648cf268
+      domain: deconz
+      platform: device
+      type: remote_button_long_release
+      subtype: turn_off
+    condition: []
+    action:
+    - service: input_boolean.toggle
+      data: {}
+      entity_id: input_boolean.button_pressed
+    - service: script.turn_off
+      entity_id: script.ramp_light
+    mode: single
 
