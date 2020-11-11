@@ -1,42 +1,10 @@
 automation:
-
-  - alias: Turn on the lights when the sun is set
-    description: ''
-    trigger:
-    - platform: event
-      event_type: timer.finished
-      event_data:
-        entity_id: timer.bedtimer
-    condition: []
-    action:
-      - service: light.turn_off
-        data:
-          entity_id: light.color_temperature_light_7
-    mode: single
-
-  - alias: Turn on the lights when the sun is set
-    description: ''
-    trigger:
-      - device_id: 8e9214401a7769b607a7f5a95e237030
-        domain: deconz
-        platform: device
-        type: remote_button_short_press
-        subtype: turn_on
-    condition: []
-    action:
-      - service: light.turn_on
-        data:
-          entity_id: light.color_temperature_light_7
-      - service: timer.start
-        entity_id: timer.bedtimer
-    mode: single
-
   ####################################################
   #                                                  #
   #                     Linda Button                 #
   #                                                  #
   ####################################################
-  - alias: Sovrum Linda Turn On 2.0
+  - alias: Sovrum Linda Turn On
     variables:
       lamp1: '{{states(''input_text.lindasbedlamp'')}}'
       lamp2: '{{states(''input_text.rooflamp'')}}'
@@ -60,7 +28,7 @@ automation:
         entity_id: timer.bedtimer 
     mode: single 
 
-  - alias: Sovrum Linda Turn Off 2.0
+  - alias: Sovrum Linda Turn Off
     variables:
       lamp1: '{{states(''input_text.lindasbedlamp'')}}'
       lamp2: '{{states(''input_text.rooflamp'')}}'
@@ -101,7 +69,7 @@ automation:
             {% for e in lamps %}{% if loop.first or  states(e) == 'off' %}{% else %}, {% endif %}{% if states(e) == 'on' %}{{e}}{%endif%}{% endfor %}
     mode: single  
 
-   #================== DIMMING ============================================# 
+  #================== DIMMING ============================================# 
   - alias: Sovrum Linda Dim Up
     variables:
       lamp1: '{{states(''input_text.lindasbedlamp'')}}'
@@ -192,7 +160,7 @@ automation:
   #                     Johan Button                 #
   #                                                  #
   ####################################################
-  - alias: Sovrum Johan Turn On 2.0
+  - alias: Sovrum Johan Turn On
     variables:
       lamp1: '{{states(''input_text.johansbedlamp'')}}'
       lamp2: '{{states(''input_text.rooflamp'')}}'
@@ -216,7 +184,7 @@ automation:
         entity_id: timer.bedtimer 
     mode: single 
 
-  - alias: Sovrum Johan Turn Off 2.0
+  - alias: Sovrum Johan Turn Off
     variables:
       lamp1: '{{states(''input_text.johansbedlamp'')}}'
       lamp2: '{{states(''input_text.rooflamp'')}}'
