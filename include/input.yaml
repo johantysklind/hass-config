@@ -4,6 +4,8 @@ input_text:
   #                     TEXT                         #
   #                                                  #
   ####################################################
+
+  ####################### Bedroom#####################
   lindasbedlamp:
     initial: light.color_temperature_light_9
   johansbedlamp:
@@ -13,6 +15,12 @@ input_text:
   sovrumf:
     name: Sovrum Flag
     initial: O
+
+  ####################### Office #####################
+  office_ceiling:
+    initial: light.office_ceiling
+  office_desk:
+    initial: light.color_temperature_light_7
 
 
 input_boolean:

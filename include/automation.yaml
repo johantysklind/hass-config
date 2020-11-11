@@ -9,12 +9,12 @@ automation:
         weekday:
           - wed
     action:
-      - service: notify.ios_notify
-        data:
-          message: "Creating Snapshot"
-          data:
-            push:
-              badge: 1
+     # - service: notify.ios_notify
+     #   data:
+     #     message: "Creating Snapshot"
+     #     data:
+     #       push:
+     #         badge: 1
       - service: hassio.snapshot_full
         data_template:
           name: >
@@ -313,3 +313,45 @@ automation:
       entity_id: script.ramp_light
     mode: single
 
+  ####################################################
+  #                                                  #
+  #                     Office                       #
+  #                                                  #
+  ####################################################
+
+  - alias: Office Turn On
+    variables:
+      lamp1: '{{states(''input_text.office_ceiling'')}}'
+      lamp2: '{{states(''input_text.office_desk'')}}'
+    trigger:
+      - device_id: bf72b6cd79711354da69043741c5773f
+        domain: deconz
+        platform: device
+        type: remote_button_short_press
+        subtype: turn_on
+    condition: []
+    action:
+    - choose: 
+      - conditions: "{{ states(lamp1) == 'off' and states(lamp2) == 'off'  }}"
+        sequence:
+          service: script.turn_on_light
+          data:
+            light: " {{ [lamp1,lamp2] | join(', ') }}"
+      - conditions: "{{ states(lamp1) == 'on' and states(lamp2) == 'on'  }}"
+        sequence:
+          service: script.turn_off_light
+          data:
+            light: " {{ [lamp2] | join(', ') }}"
+      - conditions: "{{ states(lamp1) == 'on' and states(lamp2) == 'off'  }}"
+        sequence:
+          - service: script.turn_off_light
+            data:
+              light: " {{ [lamp1] | join(', ') }}"
+          - service: script.turn_on_light
+            data:
+              light: " {{ [lamp2] | join(', ') }}"
+      default:
+        service: script.turn_on_light
+        data:
+          light: " {{ [lamp1,lamp2] | join(', ') }}"     
+    mode: single 

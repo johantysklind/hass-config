@@ -1,3 +1,5 @@
 timer:
   bedtimer:
     duration: '00:10:00'
+  office:
+    duration: '01:00:00'
