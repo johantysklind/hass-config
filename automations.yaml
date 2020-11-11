@@ -14,3 +14,18 @@
     entity_id: light.dimmable_light_11
     domain: light
   mode: single
+- id: '1605083430473'
+  alias: Turn on the lights when the sun is set
+  description: ''
+  trigger:
+  - device_id: 8e9214401a7769b607a7f5a95e237030
+    domain: deconz
+    platform: device
+    type: remote_button_short_press
+    subtype: turn_off
+  condition: []
+  action:
+  - service: light.turn_off
+    data:
+      entity_id: light.color_temperature_light_7
+  mode: single
