@@ -1,0 +1,3 @@
+timer:
+  bedtimer:
+    duration: '00:10:00'

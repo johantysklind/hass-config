@@ -5,9 +5,9 @@ input_text:
   #                                                  #
   ####################################################
   lindasbedlamp:
-    initial: light.dimmable_light_12_i6
+    initial: light.color_temperature_light_9
   johansbedlamp:
-    initial: light.dimmable_light_11
+    initial: light.color_temperature_light_10
   rooflamp:
     initial: light.dimmable_light_13_i5
   sovrumf:
