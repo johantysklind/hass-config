@@ -211,7 +211,7 @@ automation:
             {% for e in lamps %}{% if loop.first or  states(e) == 'off' %}{% else %}, {% endif %}{% if states(e) == 'on' %}{{e}}{%endif%}{% endfor %}
     mode: single
 
-  - alias: Sovrum Linda Dim Down
+  - alias: Sovrum Johan Dim Down
     variables:
       lamp1: '{{states(''input_text.johansbedlamp'')}}'
       lamp2: '{{states(''input_text.rooflamp'')}}'
@@ -240,7 +240,7 @@ automation:
 
   - alias: Sovrum Johan Dim Up Stop
     trigger:
-    - device_id: d2a1d5e5c9b9424af1bb57fe648cf268
+    - device_id: accf0c5ff38a642279f9ec8e86f4dbfe
       domain: deconz
       platform: device
       type: remote_button_long_release
@@ -256,7 +256,7 @@ automation:
 
   - alias: Sovrum Johan Dim Up Stop
     trigger:
-    - device_id: d2a1d5e5c9b9424af1bb57fe648cf268
+    - device_id: accf0c5ff38a642279f9ec8e86f4dbfe
       domain: deconz
       platform: device
       type: remote_button_long_release
