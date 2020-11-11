@@ -355,3 +355,21 @@ automation:
         data:
           light: " {{ [lamp1,lamp2] | join(', ') }}"     
     mode: single 
+
+  - alias: Office Turn Off
+    variables:
+      lamp1: '{{states(''input_text.office_ceiling'')}}'
+      lamp2: '{{states(''input_text.office_desk'')}}'
+    trigger:
+      - device_id: bf72b6cd79711354da69043741c5773f
+        domain: deconz
+        platform: device
+        type: remote_button_short_press
+        subtype: turn_off
+    condition: []
+    action:
+      service: script.turn_off_light
+      data:
+        light: " {{ [lamp1,lamp2] | join(', ') }}"
+    mode: single 
+  
