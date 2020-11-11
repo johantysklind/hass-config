@@ -1,4 +1,25 @@
 automation:
+
+  - alias: Snapshot Once A Week
+    trigger:
+      - platform: time
+        at: '14:30:00'
+    condition:
+      - condition: time
+        weekday:
+          - wed
+    action:
+      - service: notify.ios_notify
+        data:
+          message: "Creating Snapshot"
+          data:
+            push:
+              badge: 1
+      - service: hassio.snapshot_full
+        data_template:
+          name: >
+            weekly_backup_{{ now().strftime('%Y-%m-%d') }}
+
   ####################################################
   #                                                  #
   #                     Linda Button                 #
