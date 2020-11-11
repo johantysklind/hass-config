@@ -353,7 +353,9 @@ automation:
       default:
         service: script.turn_on_light
         data:
-          light: " {{ [lamp1,lamp2] | join(', ') }}"     
+          light: " {{ [lamp1,lamp2] | join(', ') }}"  
+    - service: timer.start
+      entity_id: timer.office  
     mode: single 
 
   - alias: Office Turn Off
@@ -366,6 +368,10 @@ automation:
         platform: device
         type: remote_button_short_press
         subtype: turn_off
+      - platform: event
+        event_type: timer.finished
+        event_data:
+          entity_id: timer.office
     condition: []
     action:
       service: script.turn_off_light
