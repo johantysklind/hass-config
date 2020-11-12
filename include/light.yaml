@@ -5,3 +5,9 @@ light:
       - light.dimmable_light_12_i6
       - light.dimmable_light_14
       - light.dimmable_light_15
+      
+  - platform: group
+    name: Hallway
+    entities:
+      - light.dimmable_light_5
+      - light.dimmable_light_4

@@ -468,3 +468,79 @@ automation:
     - service: script.turn_off
       entity_id: script.ramp_light_office
     mode: single
+
+
+  ####################################################
+  #                                                  #
+  #                     Hallway                      #
+  #                                                  #
+  ####################################################
+
+  - alias: Hallway Turn On
+    variables:
+      lamp1: '{{states(''input_text.hallway'')}}'
+    trigger:
+      - type: motion
+        platform: device
+        device_id: 8e98142f89ebcfd90b9a2b3701dfd37a
+        entity_id: binary_sensor.tradfri_motion_sensor
+        domain: binary_sensor
+    condition: []
+    action:
+      - service: script.turn_on_light
+        data:
+          light: "{{lamp1}}"
+      - service: timer.start
+        entity_id: timer.hallway1_1 
+      - service: timer.start
+        entity_id: timer.hallway1_2
+      - service: timer.start
+        entity_id: timer.hallway1_3 
+    mode: single 
+
+  - alias: Hallway Dim 1
+    variables:
+      lamp1: '{{states(''input_text.hallway'')}}'
+    trigger:
+      - platform: event
+        event_type: timer.finished
+        event_data:
+          entity_id: timer.hallway1_1
+    condition: []
+    action:
+      - service: script.turn_on_light
+        data:
+          light: "{{lamp1}}"
+          brightness: 154
+    mode: single 
+
+  - alias: Hallway Dim 2
+    variables:
+      lamp1: '{{states(''input_text.hallway'')}}'
+    trigger:
+      - platform: event
+        event_type: timer.finished
+        event_data:
+          entity_id: timer.hallway1_2
+    condition: []
+    action:
+      - service: script.turn_on_light
+        data:
+          light: "{{lamp1}}"
+          brightness: 26
+    mode: single 
+
+  - alias: Hallway Dim 3
+    variables:
+      lamp1: '{{states(''input_text.hallway'')}}'
+    trigger:
+      - platform: event
+        event_type: timer.finished
+        event_data:
+          entity_id: timer.hallway1_3
+    condition: []
+    action:
+      - service: script.turn_off_light
+        data:
+          light: "{{lamp1}}"
+    mode: single 
