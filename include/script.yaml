@@ -63,12 +63,15 @@ script:
       light:
         description: Light entity_id
         example: light.family_room_lamp
+      brightness : 
+        description: Light entity_id
+        example: light.family_room_lamp
     mode: restart
     sequence:
       - service: light.turn_on
         data:
           entity_id: "{{ light }}"
-          brightness: 200
+          brightness: "{%if brightness is defined%}{{brightness}}{%else%}255{%endif%}"
 
           
   turn_off_light:
