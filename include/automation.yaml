@@ -87,7 +87,8 @@ automation:
         data:
           light: >
             {% set lamps = [lamp1,lamp2,lamp3] %}
-            {% for e in lamps %}{% if loop.first or  states(e) == 'off' %}{% else %}, {% endif %}{% if states(e) == 'on' %}{{e}}{%endif%}{% endfor %}
+            {% set count = namespace(value=1) %}
+            {% for e in lamps %}{% if count.value == 1 or  states(e) == 'off' %}{% else %}, {% endif %}{% if states(e) == 'on' %}{{e}}{% set count.value = count.value + 1 %}{%endif%}{% endfor %}
     mode: single  
 
   #================== DIMMING ============================================# 
@@ -114,7 +115,8 @@ automation:
           direction: up
           light: >
             {% set lamps = [lamp1,lamp2,lamp3] %}
-            {% for e in lamps %}{% if loop.first or  states(e) == 'off' %}{% else %}, {% endif %}{% if states(e) == 'on' %}{{e}}{%endif%}{% endfor %}
+            {% set count = namespace(value=1) %}
+            {% for e in lamps %}{% if count.value == 1 or  states(e) == 'off' %}{% else %}, {% endif %}{% if states(e) == 'on' %}{{e}}{% set count.value = count.value + 1 %}{%endif%}{% endfor %}
     mode: single
 
   - alias: Sovrum Linda Dim Down
@@ -140,7 +142,8 @@ automation:
           direction: down
           light: >
             {% set lamps = [lamp1,lamp2,lamp3] %}
-            {% for e in lamps %}{% if loop.first or  states(e) == 'off' %}{% else %}, {% endif %}{% if states(e) == 'on' %}{{e}}{%endif%}{% endfor %}
+            {% set count = namespace(value=1) %}
+            {% for e in lamps %}{% if count.value == 1 or  states(e) == 'off' %}{% else %}, {% endif %}{% if states(e) == 'on' %}{{e}}{% set count.value = count.value + 1 %}{%endif%}{% endfor %}
     mode: single
 
 
@@ -251,7 +254,8 @@ automation:
           direction: up
           light: >
             {% set lamps = [lamp1,lamp2,lamp3] %}
-            {% for e in lamps %}{% if loop.first or  states(e) == 'off' %}{% else %}, {% endif %}{% if states(e) == 'on' %}{{e}}{%endif%}{% endfor %}
+            {% set count = namespace(value=1) %}
+            {% for e in lamps %}{% if count.value == 1 or  states(e) == 'off' %}{% else %}, {% endif %}{% if states(e) == 'on' %}{{e}}{% set count.value = count.value + 1 %}{%endif%}{% endfor %}
     mode: single
 
   - alias: Sovrum Johan Dim Down
@@ -277,7 +281,8 @@ automation:
           direction: down
           light: >
             {% set lamps = [lamp1,lamp2,lamp3] %}
-            {% for e in lamps %}{% if loop.first or  states(e) == 'off' %}{% else %}, {% endif %}{% if states(e) == 'on' %}{{e}}{%endif%}{% endfor %}
+            {% set count = namespace(value=1) %}
+            {% for e in lamps %}{% if count.value == 1 or  states(e) == 'off' %}{% else %}, {% endif %}{% if states(e) == 'on' %}{{e}}{% set count.value = count.value + 1 %}{%endif%}{% endfor %}
     mode: single
 
 
@@ -379,3 +384,87 @@ automation:
         light: " {{ [lamp1,lamp2] | join(', ') }}"
     mode: single 
   
+  - alias: Office Johan Dim Up
+    variables:
+      lamp1: '{{states(''input_text.office_ceiling'')}}'
+      lamp2: '{{states(''input_text.office_desk'')}}'
+    trigger:
+    - device_id: bf72b6cd79711354da69043741c5773f
+      domain: deconz
+      platform: device
+      type: remote_button_long_press
+      subtype: turn_on
+    condition: []
+    action:
+    - service: input_boolean.toggle
+      data: {}
+      entity_id: input_boolean.button_pressed
+    - service: script.turn_on
+      entity_id: script.ramp_light_office
+      data:
+        variables:
+          direction: up
+          light: >
+            {% set lamps = [lamp1,lamp2] %}
+            {% set count = namespace(value=1) %}
+            {% for e in lamps %}{% if count.value == 1 or  states(e) == 'off' %}{% else %}, {% endif %}{% if states(e) == 'on' %}{{e}}{% set count.value = count.value + 1 %}{%endif%}{% endfor %}
+    mode: single
+
+  - alias: Office Johan Dim Down
+    variables:
+      lamp1: '{{states(''input_text.office_ceiling'')}}'
+      lamp2: '{{states(''input_text.office_desk'')}}'
+    trigger:
+    - device_id: bf72b6cd79711354da69043741c5773f
+      domain: deconz
+      platform: device
+      type: remote_button_long_press
+      subtype: turn_off
+    condition: []
+    action:
+    - service: input_boolean.toggle
+      data: {}
+      entity_id: input_boolean.button_pressed
+    - service: script.turn_on
+      entity_id: script.ramp_light_office
+      data:
+        variables:
+          direction: down
+          light: >
+            {% set lamps = [lamp1,lamp2] %}
+            {% set count = namespace(value=1) %}
+            {% for e in lamps %}{% if count.value == 1 or  states(e) == 'off' %}{% else %}, {% endif %}{% if states(e) == 'on' %}{{e}}{% set count.value = count.value + 1 %}{%endif%}{% endfor %}
+    mode: single
+
+  - alias: Office Johan Dim Up Stop
+    trigger:
+    - device_id: bf72b6cd79711354da69043741c5773f
+      domain: deconz
+      platform: device
+      type: remote_button_long_release
+      subtype: turn_on
+    condition: []
+    action:
+    - service: input_boolean.toggle
+      data: {}
+      entity_id: input_boolean.button_pressed
+    - service: script.turn_off
+      entity_id: script.ramp_light_office
+    mode: single
+
+
+  - alias: Office Johan Dim Down Stop
+    trigger:
+    - device_id: bf72b6cd79711354da69043741c5773f
+      domain: deconz
+      platform: device
+      type: remote_button_long_release
+      subtype: turn_off
+    condition: []
+    action:
+    - service: input_boolean.toggle
+      data: {}
+      entity_id: input_boolean.button_pressed
+    - service: script.turn_off
+      entity_id: script.ramp_light_office
+    mode: single
