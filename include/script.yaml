@@ -18,7 +18,44 @@ script:
       - service: script.reload
         data: {}
 
-       
+  helicopter:
+    alias: Helicopter
+    fields:
+      light:
+        description: Light entity_id
+        example: light.family_room_lamp
+      rounds:
+        description: Number of times to rotate
+    mode: restart
+    sequence:
+      - repeat:
+          count: '{{rounds}}'
+          sequence:
+            - repeat:
+                while:
+                  - condition: template
+                    value_template: "{{ repeat.index <= state_attr(light,'entity_id') | length }}"
+                sequence:
+                  - service: light.turn_on
+                    data:
+                      entity_id: "{{state_attr(light,'entity_id')[repeat.index - 1]}}"
+                  - delay:
+                      milliseconds: 500        
+                  - service: light.turn_off
+                    data:
+                      entity_id: "{{state_attr(light,'entity_id')[repeat.index - 1]}}"
+
+
+  test:
+    sequence:
+      - service: script.turn_on
+        entity_id: script.helicopter
+        data:
+          variables:
+            light: light.office_ceiling
+            rounds: 3
+                              
+
   #=====================BEDROOM=======================#
   turn_on_light:
     alias: Turn on light
