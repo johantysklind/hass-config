@@ -544,3 +544,63 @@ automation:
         data:
           light: "{{lamp1}}"
     mode: single 
+
+  ####################################################
+  #                                                  #
+  #                     Jacob                        #
+  #                                                  #
+  ####################################################
+
+  - alias: Jacob Turn On
+    variables:
+      lamp1: '{{states(''input_text.jacob_ceiling'')}}'
+    trigger:
+      - device_id: 734f0b43e0bb9f826f950ba4e349037d
+        domain: deconz
+        platform: device
+        type: remote_button_short_press
+        subtype: turn_on
+    condition: []
+    action:
+      - service: light.toggle
+        data:
+          entity_id: "{{lamp1}}"
+      - service: timer.start
+        entity_id: timer.jacob 
+    mode: single 
+
+  - alias: Jacob Off Timer
+    variables:
+      lamp1: '{{states(''input_text.jacob_ceiling'')}}'
+    trigger:
+      - platform: event
+        event_type: timer.finished
+        event_data:
+          entity_id: timer.jacob
+    condition: []
+    action:
+      - service:  light.turn_off
+        data:
+          entity_id: "{{lamp1}}"
+    mode: single  
+
+  - alias: Jacob Change color
+    variables:
+      lamp1: '{{states(''input_text.jacob_ceiling'')}}'
+      colors: [[255,0,0],[255,0,128],[255,0,255],[128,0,255],[0,0,255],[0,128,255],[0,255,255],[0,255,128],[0,255,0],[128,255,0],[255,255,0],[255,128,0]]
+      test1: [255,0,0]
+      test2: [0,0,255]
+    trigger:
+      - device_id: 734f0b43e0bb9f826f950ba4e349037d
+        domain: deconz
+        platform: device
+        type: remote_button_short_press
+        subtype: right
+    condition: []
+    action:
+      - service: light.turn_on
+        data:
+          transition: 1
+          rgb_color: "{{test1}}"
+          entity_id: light.color_light_18
+    mode: single 

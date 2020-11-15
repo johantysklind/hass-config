@@ -21,13 +21,19 @@ input_text:
     initial: light.office_ceiling
   office_desk:
     initial: light.color_temperature_light_7
-  ####################### Office #####################
+  ####################### Hallen #####################
   hallway_1:
     initial: light.dimmable_light_5
   hallway_2:
     initial: light.dimmable_light_4
   hallway:
     initial: light.hallway
+
+  ####################### jacob #####################
+  jacob_ceiling:
+    initial: light.color_light_18
+
+
 
 input_boolean:
   ####################################################
