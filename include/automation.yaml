@@ -565,6 +565,7 @@ automation:
       - service: light.toggle
         data:
           entity_id: "{{lamp1}}"
+          rgb_color: [255, 205, 120]
       - service: timer.start
         entity_id: timer.jacob 
     mode: single 
@@ -598,7 +599,7 @@ automation:
     action:
       - service: light.turn_on
         data_template:
-          entity_id: light.color_light_18
+          entity_id: "{{lamp1}}"
           transition: 1
           rgb_color: ['{{ colors[states(''input_number.jacob_color_step'')|int][0]|int(0,16) }}','{{ colors[states(''input_number.jacob_color_step'')|int][1]|int(0,16) }}','{{ colors[states(''input_number.jacob_color_step'')|int][2]|int(0,16) }}']
       - service: script.rotate_number
@@ -620,10 +621,52 @@ automation:
     action:
       - service: light.turn_on
         data_template:
-          entity_id: light.color_light_18
+          entity_id: "{{lamp1}}"
           transition: 1
           rgb_color: ['{{ colors[states(''input_number.jacob_color_step'')|int][0]|int(0,16) }}','{{ colors[states(''input_number.jacob_color_step'')|int][1]|int(0,16) }}','{{ colors[states(''input_number.jacob_color_step'')|int][2]|int(0,16) }}']
       - service: script.rotate_number
         data:
           direction: "down"
     mode: single 
+
+  - alias:  Jacob Dim Up
+    variables:
+      lamp1: '{{states(''input_text.jacob_ceiling'')}}'
+    trigger:
+    - device_id: 734f0b43e0bb9f826f950ba4e349037d
+      domain: deconz
+      platform: device
+      type: remote_button_short_press
+      subtype: dim_up
+    condition: []
+    action:
+      - service: light.turn_on
+        data_template:
+          entity_id: "{{lamp1}}"
+          brightness: >
+            {% set br = state_attr(lamp1, 'brightness')|int(0) %}
+            {% set mn = states('input_number.light_minimum')|int %}
+            {% set mx = states('input_number.light_maximum')|int %}
+            {% set st = states('input_number.light_step')|int %}
+            {{ [br + st, mx]|min }}
+          
+  - alias:  Jacob Dim Up
+    variables:
+      lamp1: '{{states(''input_text.jacob_ceiling'')}}'
+    trigger:
+    - device_id: 734f0b43e0bb9f826f950ba4e349037d
+      domain: deconz
+      platform: device
+      type: remote_button_short_press
+      subtype: dim_down
+    condition: []
+    action:
+      - service: light.turn_on
+        data_template:
+          entity_id: "{{lamp1}}"
+          brightness: >
+            {% set br = state_attr(lamp1, 'brightness')|int(0) %}
+            {% set mn = states('input_number.light_minimum')|int %}
+            {% set mx = states('input_number.light_maximum')|int %}
+            {% set st = states('input_number.light_step')|int %}
+            {{ [br - st, mn]|max }}
