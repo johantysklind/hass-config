@@ -11,3 +11,5 @@ timer:
     duration: '00:05:00'
   jacob:
     duration: '00:15:00'
+  elsie:
+    duration: '00:15:00'
