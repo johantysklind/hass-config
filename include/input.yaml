@@ -29,11 +29,13 @@ input_text:
   hallway:
     initial: light.hallway
 
-  ####################### jacob #####################
+  ####################### Jacob #####################
   jacob_ceiling:
     initial: light.color_light_18
 
-
+  ####################### Elsie #####################
+  elsie_ceiling:
+    initial: light.color_light_16
 
 input_boolean:
   ####################################################
@@ -80,6 +82,13 @@ input_number:
     step: 100
 
   jacob_color_step:
+    name: 'Step the lights this much'
+    initial: 0
+    min: 0
+    max: 11
+    step: 1
+
+  elsie_color_step:
     name: 'Step the lights this much'
     initial: 0
     min: 0

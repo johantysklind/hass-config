@@ -16,19 +16,22 @@ script:
       direction:
         description: Up or down
         example: up
+      inputnumber:
+        description: entity to rotate
+        example: input_number.jacob_color_step
     sequence:
       service: input_number.set_value
       data_template:
-        entity_id: input_number.jacob_color_step
+        entity_id: "{{inputnumber}}"
         value: >
-          {% if states('input_number.jacob_color_step')|int < state_attr('input_number.jacob_color_step','max')|int and direction == "up"%}
-          {{states('input_number.jacob_color_step')|int +1}}
+          {% if states(inputnumber)|int < state_attr(inputnumber,'max')|int and direction == "up"%}
+          {{states(inputnumber)|int +1}}
           {% elif  direction == "up"%}
           0
-          {% elif   states('input_number.jacob_color_step')|int > state_attr('input_number.jacob_color_step','min')|int and direction == "down"%}
-          {{states('input_number.jacob_color_step')|int - 1}}
+          {% elif   states(inputnumber)|int > state_attr(inputnumber,'min')|int and direction == "down"%}
+          {{states(inputnumber)|int - 1}}
           {% elif  direction == "down"%}
-          {{state_attr('input_number.jacob_color_step','max')}}
+          {{state_attr(inputnumber,'max')}}
           {% endif %}
 
   reload_customs:
