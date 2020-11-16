@@ -21,13 +21,19 @@ input_text:
     initial: light.office_ceiling
   office_desk:
     initial: light.color_temperature_light_7
-  ####################### Office #####################
+  ####################### Hallen #####################
   hallway_1:
     initial: light.dimmable_light_5
   hallway_2:
     initial: light.dimmable_light_4
   hallway:
     initial: light.hallway
+
+  ####################### jacob #####################
+  jacob_ceiling:
+    initial: light.color_light_18
+
+
 
 input_boolean:
   ####################################################
@@ -72,3 +78,10 @@ input_number:
     min: 100
     max: 5000
     step: 100
+
+  jacob_color_step:
+    name: 'Step the lights this much'
+    initial: 0
+    min: 0
+    max: 11
+    step: 1
