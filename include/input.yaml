@@ -78,3 +78,10 @@ input_number:
     min: 100
     max: 5000
     step: 100
+
+  jacob_color_step:
+    name: 'Step the lights this much'
+    initial: 0
+    min: 0
+    max: 11
+    step: 1

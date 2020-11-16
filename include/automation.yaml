@@ -584,7 +584,7 @@ automation:
           entity_id: "{{lamp1}}"
     mode: single  
 
-  - alias: Jacob Change color
+  - alias: Jacob Change color right
     variables:
       lamp1: '{{states(''input_text.jacob_ceiling'')}}'
       colors: [[255,0,0],[255,0,128],[255,0,255],[128,0,255],[0,0,255],[0,128,255],[0,255,255],[0,255,128],[0,255,0],[128,255,0],[255,255,0],[255,128,0]]
@@ -599,8 +599,35 @@ automation:
     condition: []
     action:
       - service: light.turn_on
-        data:
-          transition: 1
-          rgb_color: "{{test1}}"
+        data_template:
           entity_id: light.color_light_18
+          transition: 1
+          rgb_color: ['{{ colors[states(''input_number.jacob_color_step'')|int][0]|int(0,16) }}','{{ colors[states(''input_number.jacob_color_step'')|int][1]|int(0,16) }}','{{ colors[states(''input_number.jacob_color_step'')|int][2]|int(0,16) }}']
+      - service: script.rotate_number
+        data:
+          direction: "up"
+    mode: single 
+
+  - alias: Jacob Change color right
+    variables:
+      lamp1: '{{states(''input_text.jacob_ceiling'')}}'
+      colors: [[255,0,0],[255,0,128],[255,0,255],[128,0,255],[0,0,255],[0,128,255],[0,255,255],[0,255,128],[0,255,0],[128,255,0],[255,255,0],[255,128,0]]
+      test1: [255,0,0]
+      test2: [0,0,255]
+    trigger:
+      - device_id: 734f0b43e0bb9f826f950ba4e349037d
+        domain: deconz
+        platform: device
+        type: remote_button_short_press
+        subtype: left
+    condition: []
+    action:
+      - service: light.turn_on
+        data_template:
+          entity_id: light.color_light_18
+          transition: 1
+          rgb_color: ['{{ colors[states(''input_number.jacob_color_step'')|int][0]|int(0,16) }}','{{ colors[states(''input_number.jacob_color_step'')|int][1]|int(0,16) }}','{{ colors[states(''input_number.jacob_color_step'')|int][2]|int(0,16) }}']
+      - service: script.rotate_number
+        data:
+          direction: "down"
     mode: single 

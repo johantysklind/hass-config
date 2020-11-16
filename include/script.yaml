@@ -7,6 +7,30 @@ script:
   ####################################################
 
   #=====================MAIN=========================#
+
+
+  rotate_number:
+    alias: Rotate Number
+    mode: single
+    fields:
+      direction:
+        description: Up or down
+        example: up
+    sequence:
+      service: input_number.set_value
+      data_template:
+        entity_id: input_number.jacob_color_step
+        value: >
+          {% if states('input_number.jacob_color_step')|int < state_attr('input_number.jacob_color_step','max')|int and direction == "up"%}
+          {{states('input_number.jacob_color_step')|int +1}}
+          {% elif  direction == "up"%}
+          0
+          {% elif   states('input_number.jacob_color_step')|int > state_attr('input_number.jacob_color_step','min')|int and direction == "down"%}
+          {{states('input_number.jacob_color_step')|int - 1}}
+          {% elif  direction == "down"%}
+          {{state_attr('input_number.jacob_color_step','max')}}
+          {% endif %}
+
   reload_customs:
     alias: Reload devloped code
     mode: single
