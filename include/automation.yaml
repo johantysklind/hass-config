@@ -588,8 +588,6 @@ automation:
     variables:
       lamp1: '{{states(''input_text.jacob_ceiling'')}}'
       colors: [[255,0,0],[255,0,128],[255,0,255],[128,0,255],[0,0,255],[0,128,255],[0,255,255],[0,255,128],[0,255,0],[128,255,0],[255,255,0],[255,128,0]]
-      test1: [255,0,0]
-      test2: [0,0,255]
     trigger:
       - device_id: 734f0b43e0bb9f826f950ba4e349037d
         domain: deconz
@@ -612,8 +610,6 @@ automation:
     variables:
       lamp1: '{{states(''input_text.jacob_ceiling'')}}'
       colors: [[255,0,0],[255,0,128],[255,0,255],[128,0,255],[0,0,255],[0,128,255],[0,255,255],[0,255,128],[0,255,0],[128,255,0],[255,255,0],[255,128,0]]
-      test1: [255,0,0]
-      test2: [0,0,255]
     trigger:
       - device_id: 734f0b43e0bb9f826f950ba4e349037d
         domain: deconz
