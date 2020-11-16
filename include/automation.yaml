@@ -358,7 +358,17 @@ automation:
       default:
         service: script.turn_on_light
         data:
-          light: " {{ [lamp1,lamp2] | join(', ') }}"  
+          light: " {{ [lamp1,lamp2] | join(', ') }}"
+    - condition: time
+      # At least one of the following is required.
+      after: '16:00:00'
+      before: '08:00:00'
+      weekday:
+        - mon
+        - tue
+        - wed
+        - thu
+        - fri  
     - service: timer.start
       entity_id: timer.office  
     mode: single 
@@ -468,6 +478,23 @@ automation:
     - service: script.turn_off
       entity_id: script.ramp_light_office
     mode: single
+
+  - alias: Office Start Timer Weekdays
+    trigger:
+      platform: time
+      at: '16:01:00'
+    condition:
+    - condition: time
+      weekday:
+      - mon
+      - tue
+      - wed
+      - thu
+      - fri
+    action:
+    - service: timer.start
+      entity_id: timer.office  
+    mode: single 
 
 
   ####################################################
