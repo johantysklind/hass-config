@@ -3,77 +3,127 @@ views:
   - path: default_view
     title: Dashboard
     icon: mdi:view-dashboard-variant-outline
+    grid_gap: 10
+    panel: true
     cards:
-      - type: weather-forecast
-        entity: weather.smhi_home
-        style: "{top: 50%, left: 10.6%, width: 21.5%, pointer-events: none, border-right: '1.5px solid rgba(58,69,73,0.2)'}"
-      - type: entities
-        entities:
-          - type: custom:slider-entity-row
-            toggle: true
-            entity: light.office_ceiling
-            name: Taklampa
-          - type: custom:slider-entity-row
-            toggle: true
-            entity: light.color_temperature_light_7
-            name: Skrivbordslampa
-        title: Kontor
-      - type: entities
-        entities:
-          - type: custom:slider-entity-row
-            toggle: true
-            entity: light.dimmable_light_13_i5
-            name: Taklampa
-          - type: custom:slider-entity-row
-            toggle: true
-            entity: light.color_temperature_light_9
-            name: Lindas lampa
-          - type: custom:slider-entity-row
-            toggle: true
-            entity: light.color_temperature_light_10
-            name: Johans lampa  
-        title: Sovrum
-      - type: horizontal-stack
+      - type: custom:layout-card
+        layout: vertical
         cards:
-          - type: sensor
-            graph: line
-            entity: sensor.temperature_14
-            name: Sovrum
-          - type: sensor
-            entity: sensor.kontor_temperatur_sensor
-            graph: line
-            name: Kontor
-      - type: entities
-        entities:
-          - type: custom:slider-entity-row
-            toggle: true
-            entity: light.color_light_16
-            name: Taklampa
-        title: Elsies rum
-      - type: entities
-        entities:
-          - type: custom:slider-entity-row
-            toggle: true
-            entity: light.color_light_16
-            name: Taklampa
-        title: Jacobs rum
-      - type:  entities
-        entities:
-          - type: custom:slider-entity-row
-            toggle: true
-            entity: light.dimmable_light_5
-            name: Taklampa (norra)
-          - type: custom:slider-entity-row
-            toggle: true
-            entity: light.dimmable_light_4
-            name: Taklampa (södra)
-        title: Hall (nya delen)
+        - type: weather-forecast
+          entity: weather.smhi_home
+        - type: horizontal-stack
+          cards:
+            - type: sensor
+              graph: line
+              entity: sensor.temperature_14
+              name: Sovrum
+            - type: sensor
+              entity: sensor.kontor_temperatur_sensor
+              graph: line
+              name: Kontor
+        - break
+        - type: entities
+          entities:
+            - type: custom:slider-entity-row
+              toggle: true
+              entity: light.dimmable_light_13_i5
+              name: Taklampa
+            - type: custom:slider-entity-row
+              toggle: true
+              entity: light.color_temperature_light_9
+              name: Lindas lampa
+            - type: custom:slider-entity-row
+              toggle: true
+              entity: light.color_temperature_light_10
+              name: Johans lampa  
+          title: Sovrum
+        - type: entities
+          entities:
+            - type: custom:slider-entity-row
+              toggle: true
+              entity: light.office_ceiling
+              name: Taklampa
+            - type: custom:slider-entity-row
+              toggle: true
+              entity: light.color_temperature_light_7
+              name: Skrivbordslampa
+          title: Kontor
+        - type:  entities
+          entities:
+            - type: custom:slider-entity-row
+              toggle: true
+              entity: light.dimmable_light_5
+              name: Taklampa (norra)
+            - type: custom:slider-entity-row
+              toggle: true
+              entity: light.dimmable_light_4
+              name: Taklampa (södra)
+          title: Hall (nya delen)
+        - break
+        - type: entities
+          entities:
+            - type: custom:slider-entity-row
+              toggle: true
+              entity: light.color_light_16
+              name: Taklampa
+          title: Elsies rum
+        - type: entities
+          entities:
+            - type: custom:slider-entity-row
+              toggle: true
+              entity: light.color_light_16
+              name: Taklampa
+          title: Jacobs rum
+        - type: custom:mini-media-player
+          entity: media_player.kok
+          info: short
+          artwork: cover
+          hide:
+            power: true
+            icon: true
+            source: true
+          speaker_group:
+            platform: sonos
+            show_group_count: true
+            entities:
+              - entity_id: media_player.kok
+                name: Sonos Kök
+              - entity_id: media_player.bibliotek
+                name: Sonos Biblotek
+              - entity_id: media_player.vardagsrum
+                name: Sonos Vardagsrum
   - path: system
     title: System
     panel: true
     icon: mdi:raspberry-pi
     cards:
-      - type: picture
-        image: https://i.pinimg.com/originals/b6/de/37/b6de373c6eb89d9615142527eb9fab12.jpg
+      - type: custom:layout-card
+        layout: vertical
+        cards:
+          - type: custom:auto-entities
+            show_empty: false
+            card:
+              type: entities
+              title: Lights on
+              show_header_toggle: false
+            filter:
+              include:
+                - domain: light
+              exclude:
+              - state: "off"
+              - state: "unavailable"
+          - type: custom:layout-card
+            layout: vertical
+            cards:
+              - type: custom:auto-entities
+                show_empty: false
+                card:
+                  type: entities
+                  title: Lights on
+                  show_header_toggle: false
+                filter:
+                  include:
+                    - domain: light
+                      state: "unavailable"
 
-       
+    
