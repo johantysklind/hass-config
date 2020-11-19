@@ -110,20 +110,16 @@ views:
               include:
                 - domain: light
               exclude:
-              - state: "off"
-              - state: "unavailable"
-          - type: custom:layout-card
-            layout: vertical
-            cards:
-              - type: custom:auto-entities
-                show_empty: false
-                card:
-                  type: entities
-                  title: Lights on
-                  show_header_toggle: false
-                filter:
-                  include:
-                    - domain: light
-                      state: "unavailable"
+              - state: "unavailable"              
+          - type: custom:auto-entities
+            show_empty: false
+            card:
+              type: entities
+              title: Lights on
+              show_header_toggle: false
+            filter:
+              include:
+                - domain: light
+                  state: "unavailable"
 
     

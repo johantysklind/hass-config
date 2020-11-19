@@ -50,7 +50,7 @@ homeassistant:
     light.color_temperature_light_2:
       friendly_name: Sofflampa 1
     light.color_temperature_light_3:
-      friendly_name: Sofflampa 1
+      friendly_name: Sofflampa 2
     light.color_temperature_light_22:
       friendly_name: Bordslampa
 
