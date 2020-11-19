@@ -1,0 +1,15 @@
+homeassistant:
+  customize:
+
+    ####################################################
+    #                                                  #
+    #                    CUSTOMIZE                     #
+    #                                                  #
+    ####################################################
+
+    #sensor
+
+
+    #light
+    light.color_temperature_light_7:
+      friendly_name: Skrivbordslampa
