@@ -4,11 +4,11 @@ timer:
   office:
     duration: '01:00:00'
   hallway1_1:
-    duration: '00:02:00'
+    duration: '00:10:00'
   hallway1_2:
-    duration: '00:03:00'
+    duration: '00:13:00'
   hallway1_3:
-    duration: '00:05:00'
+    duration: '00:15:00'
   jacob:
     duration: '00:15:00'
   elsie:

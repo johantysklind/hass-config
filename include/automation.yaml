@@ -720,7 +720,7 @@ automation:
       - service: light.toggle
         data:
           entity_id: "{{lamp1}}"
-          rgb_color: [255, 205, 120]
+          rgb_color: [255, 205, 120] #rgb_color: [10, 0, 255][255, 205, 120] # [10, 0, 255]
       - service: timer.start
         entity_id: timer.elsie
     mode: single 

@@ -1,0 +1,63 @@
+homeassistant:
+  customize:
+
+    ####################################################
+    #                                                  #
+    #                    CUSTOMIZE                     #
+    #                                                  #
+    ####################################################
+
+    #sensor
+
+
+    #light
+    #Hall (ny)
+    light.dimmable_light_5:
+      friendly_name: Hallen Norra
+    light.dimmable_light_4:
+      friendly_name: Hallen Södra
+    #Sovrum
+    light.color_temperature_light_9:
+      friendly_name: Lindas Nattlampa
+    light.color_temperature_light_10:
+      friendly_name: Johans Nattlampa
+    #Kontor
+    light.dimmable_light_12_i6:
+      friendly_name: Taklampa 1
+    light.dimmable_light_14:
+      friendly_name: Taklampa 2
+    light.dimmable_light_15:
+      friendly_name: Taklampa 3
+
+    light.color_temperature_light_7:
+      friendly_name: Skrivbordslampa
+    
+    # Kök
+
+    light.dimmable_light_11:
+      friendly_name: Kök södra 1
+    light.dimmable_light_19:
+      friendly_name: Kök södra 2
+
+    light.dimmable_light_20:
+      friendly_name: Kök norra 1
+    light.dimmable_light_21:
+      friendly_name: Kök norra 2
+
+    light.color_temperature_light_8:
+      friendly_name: Kök matbordslampa    
+    
+    light.color_temperature_light_2:
+      friendly_name: Sofflampa 1
+    light.color_temperature_light_3:
+      friendly_name: Sofflampa 2
+    light.color_temperature_light_22:
+      friendly_name: Bordslampa
+
+    switch.on_off_plug_in_unit_6: 
+      friendly_name: Vägglampa (plug)
+
+    light.color_light_18:
+      friendly_name: Jacobs Taklampa
+    light.color_light_16:
+      friendly_name: Elsies Taklampa

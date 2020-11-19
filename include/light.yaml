@@ -11,3 +11,23 @@ light:
     entities:
       - light.dimmable_light_5
       - light.dimmable_light_4
+
+  - platform: group
+    name: Kitchen North
+    entities:
+      - light.dimmable_light_20
+      - light.dimmable_light_21
+  
+  - platform: group
+    name: Kitchen South
+    entities:
+      - light.dimmable_light_11
+      - light.dimmable_light_19
+  
+  - platform: group
+    name: Kitchen Ceiling
+    entities:
+      - light.kitchen_1_north
+      - light.kitchen_1_south
+
+
