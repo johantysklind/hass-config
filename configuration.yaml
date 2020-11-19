@@ -27,7 +27,14 @@ lovelace:
       type: module
     - url: /hacsfiles/lovelace-card-mod/card-mod.js
       type: module
-
+  dashboards:
+    lovelace-generated: # Needs to contain a hyphen (-)
+      mode: yaml
+      filename: notexist.yaml
+      title: Generated
+      icon: mdi:tools
+      show_in_sidebar: true
+      require_admin: true
 #group: !include groups.yaml
 #automation: !include automations.yaml
 #script: !include scripts.yaml
