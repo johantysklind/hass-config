@@ -56,3 +56,8 @@ homeassistant:
 
     switch.on_off_plug_in_unit_6: 
       friendly_name: Vägglampa (plug)
+
+    light.color_light_18:
+      friendly_name: Jacobs Taklampa
+    light.color_light_16:
+      friendly_name: Elsies Taklampa
