@@ -13,3 +13,5 @@ timer:
     duration: '00:15:00'
   elsie:
     duration: '00:15:00'
+  kitchentable:  
+    duration: '01:00:00'

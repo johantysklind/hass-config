@@ -45,7 +45,9 @@ input_boolean:
   ####################################################
   button_pressed:
     initial: off
-
+  bedroom_disable_timer:
+    name: Disable timer in bedroom
+    initial: off
 
 input_number:
   ####################################################
@@ -93,4 +95,18 @@ input_number:
     initial: 0
     min: 0
     max: 11
+    step: 1
+
+  light_kitchen:
+    name: 'Kitchen table rotator number'
+    initial: 0
+    min: 0
+    max: 2
+    step: 1
+
+  sonos_kitchen_playlist:
+    name: 'Kitchen Sonos rotator number'
+    initial: 0
+    min: 0
+    max: 8
     step: 1

@@ -81,7 +81,10 @@ automation:
         event_type: timer.finished
         event_data:
           entity_id: timer.bedtimer
-    condition: []
+    condition: 
+      - condition: state
+        entity_id: input_boolean.bedroom_disable_timer
+        state: 'off'
     action:
       - service: script.turn_off_light
         data:
@@ -359,16 +362,22 @@ automation:
         service: script.turn_on_light
         data:
           light: " {{ [lamp1,lamp2] | join(', ') }}"
-    - condition: time
-      # At least one of the following is required.
-      after: '16:00:00'
-      before: '08:00:00'
-      weekday:
-        - mon
-        - tue
-        - wed
-        - thu
-        - fri  
+    - condition: or
+      conditions:
+      - condition: time
+        # At least one of the following is required.
+        after: '16:00:00'
+        before: '8:00:00'
+        weekday:
+          - mon
+          - tue
+          - wed
+          - thu
+          - fri  
+      - condition: time
+        weekday:
+        - sat
+        - sun   
     - service: timer.start
       entity_id: timer.office  
     mode: single 
@@ -826,4 +835,192 @@ automation:
             {% set mn = states('input_number.light_minimum')|int %}
             {% set mx = states('input_number.light_maximum')|int %}
             {% set st = states('input_number.light_step')|int %}
-            {{ [br - st, mn]|max }}
+
+  ####################################################
+  #                                                  #
+  #                     Kitchen                      #
+  #                                                  #
+  ####################################################
+
+  - alias: Kitchen Table Turn On
+    variables:
+      lamp1: light.color_temperature_light_8
+      lamp2: light.kitchen_wall_light
+    trigger:
+      - device_id: aa266bc4d65349f4d085bfa9c949e8ae
+        domain: deconz
+        platform: device
+        type: remote_button_short_press
+        subtype: turn_on
+    condition: []
+    action:
+      - choose: 
+        - conditions: "{{ states(lamp1) == 'off' and  states(lamp2) == 'off' }}"
+          sequence:
+            service: light.turn_on
+            data:
+              entity_id:
+                - "{{lamp1}}"
+                - "{{lamp2}}"
+        - conditions: "{{ states(lamp1) == 'on' and states(lamp2) == 'on'  }}"
+          sequence:
+            service: light.turn_off
+            data_template:
+              entity_id: 
+                - "{{lamp2}}"
+        - conditions: "{{ states(lamp1) == 'on' and states(lamp2) == 'off'  }}"
+          sequence:
+            - service: light.turn_off
+              data_template:
+                entity_id:  
+                  - "{{lamp1}}"
+            - service: light.turn_on
+              data_template:
+                entity_id:
+                  - "{{lamp2}}"
+        default:
+          service: light.turn_on
+          data_template:
+            entity_id: 
+              - "{{lamp1}}"
+              - "{{lamp2}}"
+      - condition: or
+        conditions:
+        - condition: time
+          # At least one of the following is required.
+          after: '16:00:00'
+          before: '8:00:00'
+          weekday:
+            - mon
+            - tue
+            - wed
+            - thu
+            - fri  
+        - condition: time
+          weekday:
+          - sat
+          - sun    
+      - service: timer.start
+        entity_id: timer.kitchentable  
+    mode: single 
+  
+  - alias: Kitchen Table Turn Off
+    variables:
+      lamp1: light.kitchen_table
+    trigger:
+      - device_id: aa266bc4d65349f4d085bfa9c949e8ae
+        domain: deconz
+        platform: device
+        type: remote_button_short_press
+        subtype: turn_off
+      - platform: event
+        event_type: timer.finished
+        event_data:
+          entity_id: timer.kitchentable
+    condition: []
+    action:
+      - service: light.turn_off
+        data:
+          entity_id: "{{lamp1}}"
+    mode: single 
+
+  ####################################################
+  #                                                  #
+  #                     Kitchen Sonos                #
+  #                                                  #
+  ####################################################
+
+  - alias: Kitchen Sonos Toggle
+    trigger:
+      - device_id: 7bd83263a148181d829c2a4120a25bc2
+        domain: deconz
+        platform: device
+        type: remote_button_short_press
+        subtype: turn_on
+    condition: []
+    action:
+      - service: media_player.media_play_pause
+        data: {}
+        entity_id: media_player.kok
+    mode: single
+
+  - alias: Kitchen Sonos Volume Up
+    description: ''
+    trigger:
+      - device_id: 7bd83263a148181d829c2a4120a25bc2
+        domain: deconz
+        platform: device
+        type: remote_button_rotated
+        subtype: right
+    condition: []
+    action:
+      - service: media_player.volume_down
+        data: {}
+        entity_id: media_player.kok
+    mode: single
+
+  - alias: Kitchen Sonos Volume Down
+    description: ''
+    trigger:
+      - device_id: 7bd83263a148181d829c2a4120a25bc2
+        domain: deconz
+        platform: device
+        type: remote_button_rotated
+        subtype: left
+    condition: []
+    action:
+      - service: media_player.volume_up
+        data: {}
+        entity_id: media_player.kok
+    mode: single
+  
+  - alias: Kitchen Sonos Next Song
+    description: ''
+    trigger:
+      - device_id: 7bd83263a148181d829c2a4120a25bc2
+        domain: deconz
+        platform: device
+        type: remote_button_double_press
+        subtype: turn_on
+    condition: []
+    action:
+      - service: media_player.media_next_track
+        data: {}
+        entity_id: media_player.kok
+    mode: single
+
+
+  - alias: Kitchen Sonos Next Playlist
+    variables:
+      vol :  "{{state_attr('media_player.kok','volume_level')}}"
+    trigger:
+      - device_id: 7bd83263a148181d829c2a4120a25bc2
+        domain: deconz
+        platform: device
+        type: remote_button_triple_press
+        subtype: turn_on
+    action:
+      - service: script.sonos_say
+        data_template:
+          sonos_entity: media_player.kok
+          volume: 0.5
+          message: >
+            {%set pl = state_attr('media_player.kok','source_list')%}
+            {%set nr = states('input_number.sonos_kitchen_playlist')|int%}
+            {{pl[nr]}}
+          delay: '00:00:05'
+      - service: media_player.volume_set
+        data: 
+          volume_level: "{{vol}}"
+        entity_id: media_player.kok
+      - service: media_player.select_source
+        data_template :
+          source: >
+            {%set pl = state_attr('media_player.kok','source_list')%}
+            {%set nr = states('input_number.sonos_kitchen_playlist')|int%}
+            {{pl[nr]}}
+        entity_id: media_player.kok
+      - service: script.rotate_number
+        data:
+          direction: "up"
+          inputnumber: "input_number.sonos_kitchen_playlist"

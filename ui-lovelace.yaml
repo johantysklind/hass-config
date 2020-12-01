@@ -21,6 +21,20 @@ views:
               entity: sensor.kontor_temperatur_sensor
               graph: line
               name: Kontor
+        - type: horizontal-stack
+          cards:
+            - type: picture
+              image: 'http://homeassistant.local:8081'
+              tap_action:
+                action: none
+              hold_action:
+                action: none  
+            - type: picture
+              image: 'http://homeassistant.local:8083'
+              tap_action:
+                action: none
+              hold_action:
+                action: none  
         - break
         - type: entities
           entities:
@@ -92,6 +106,14 @@ views:
                 name: Sonos Biblotek
               - entity_id: media_player.vardagsrum
                 name: Sonos Vardagsrum
+  - path: bedroom
+    title: Beddroom
+    panel: true
+    icon: mdi:bed
+    cards:
+      - type: entities
+        entities:
+          - entity: input_boolean.bedroom_disable_timer
   - path: system
     title: System
     panel: true

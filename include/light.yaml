@@ -31,3 +31,39 @@ light:
       - light.kitchen_1_south
 
 
+  - platform: switch
+    name: Kitchen wall light 
+    entity_id: switch.on_off_plug_in_unit_6
+
+  - platform: group
+    name: Kitchen Table
+    entities:
+      - light.color_temperature_light_8
+      - light.kitchen_wall_light
+
+
+  - platform: group
+    name: Livingroom Stand
+    entities:
+      - light.color_temperature_light_2
+      - light.color_temperature_light_3
+  
+  - platform: group
+    name: Livingroom all
+    entities:
+      - light.color_temperature_light_2
+      - light.color_temperature_light_3
+      - light.color_temperature_light_22
+   
+  - platform: group
+    name: Livingroom
+    entities:
+      - light.livingroom_all
+      - light.livingroom_stand 
+      - light.color_temperature_light_2
+      - light.color_temperature_light_3
+      - light.color_temperature_light_22
+
+  
+
+
