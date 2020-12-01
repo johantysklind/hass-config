@@ -111,9 +111,60 @@ views:
     panel: true
     icon: mdi:bed
     cards:
-      - type: entities
-        entities:
-          - entity: input_boolean.bedroom_disable_timer
+      - type: custom:layout-card
+        layout: vertical
+        cards:
+        - type: custom:mini-graph-card
+          title: 'My Graph'
+          entities:
+            - entity: sensor.temperature_14
+              name: Temperatur
+          hours_to_show: 24
+          labels : true
+          points: true
+          line_color: red
+        - type: horizontal-stack
+          cards:
+            - type: custom:mini-graph-card
+              title: 'My Graph'
+              entities:
+                - entity: sensor.pressure_16
+                  name: Tryck
+              hours_to_show: 24
+              labels : true
+              points: true
+              line_color: yellow
+            - type: custom:mini-graph-card
+              title: 'My Graph'
+              entities:
+                - entity: sensor.humidity_15
+                  name: Luftfuktighet
+              hours_to_show: 24
+              labels : true
+              points: true
+              line_color: blue
+        - break
+        - type: entities
+          entities:
+            - type: custom:slider-entity-row
+              toggle: true
+              entity: light.dimmable_light_13_i5
+              name: Taklampa
+            - type: custom:slider-entity-row
+              toggle: true
+              entity: light.color_temperature_light_9
+              name: Lindas lampa
+            - type: custom:slider-entity-row
+              toggle: true
+              entity: light.color_temperature_light_10
+              name: Johans lampa  
+          title: Sovrum
+        - break
+        - type: entities
+          title : Settings
+          entities:
+            - entity: input_boolean.bedroom_disable_timer
+            - entity: timer.bedtimer
   - path: system
     title: System
     panel: true
