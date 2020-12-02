@@ -27,8 +27,10 @@ light:
   - platform: group
     name: Kitchen Ceiling
     entities:
-      - light.kitchen_1_north
-      - light.kitchen_1_south
+      - light.dimmable_light_20
+      - light.dimmable_light_21
+      - light.dimmable_light_11
+      - light.dimmable_light_19
 
 
   - platform: switch

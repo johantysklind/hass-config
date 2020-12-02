@@ -923,6 +923,53 @@ automation:
         data:
           entity_id: "{{lamp1}}"
     mode: single 
+  ####################################################
+  #                                                  #
+  #                     Kitchen - roof               #
+  #                                                  #
+  ####################################################
+  - alias: Kitchen Roof Turn On
+    variables:
+      lamp1: light.kitchen_ceiling
+    trigger:
+      - device_id: 8e9214401a7769b607a7f5a95e237030
+        domain: deconz
+        platform: device
+        type: remote_button_short_press
+        subtype: turn_on
+      - device_id: fa68fcbec6878e784b868c5ed9bdc644
+        domain: deconz
+        platform: device
+        type: remote_button_short_press
+        subtype: turn_on
+    condition: []
+    action:
+      - service: light.turn_on
+        data:
+          entity_id: "{{lamp1}}"
+    mode: single 
+
+  - alias: Kitchen Roof Turn Off
+    variables:
+      lamp1: light.kitchen_ceiling
+    trigger:
+      - device_id: 8e9214401a7769b607a7f5a95e237030
+        domain: deconz
+        platform: device
+        type: remote_button_short_press
+        subtype: turn_off
+      - device_id: fa68fcbec6878e784b868c5ed9bdc644
+        domain: deconz
+        platform: device
+        type: remote_button_short_press
+        subtype: turn_off
+    condition: []
+    action:
+      - service: light.turn_off
+        data:
+          entity_id: "{{lamp1}}"
+    mode: single 
+
 
   ####################################################
   #                                                  #
@@ -1024,3 +1071,107 @@ automation:
         data:
           direction: "up"
           inputnumber: "input_number.sonos_kitchen_playlist"
+
+
+  ####################################################
+  #                                                  #
+  #                     Livingroom                   #
+  #                                                  #
+  ####################################################
+
+  - alias: Livingroom Turn On
+    variables:
+      lamp1: light.livingroom_all
+    trigger:
+      - device_id: 713e2d6c5a4437f38112cdb460777784
+        domain: deconz
+        platform: device
+        type: remote_button_short_press
+        subtype: turn_on
+    condition: []
+    action:
+      - service: light.toggle
+        data:
+          entity_id: light.livingroom_all #"{{lamp1}}"
+    mode: single 
+
+
+  - alias: Livingroom Turn On
+    variables:
+      lamp1: light.color_temperature_light_2
+      lamp2: light.color_temperature_light_3
+      lamp3: light.color_temperature_light_22
+    trigger:
+      - device_id: 713e2d6c5a4437f38112cdb460777784
+        domain: deconz
+        platform: device
+        type: remote_button_short_press
+        subtype: right
+    condition: []
+    action:
+      - choose: 
+        - conditions: "{{ states(lamp1) == 'on' and  states(lamp2) == 'on' and  states(lamp3) == 'on' }}"
+          sequence:
+            service: light.turn_off
+            data:
+              entity_id:
+                - "{{lamp3}}"
+        - conditions: "{{ states(lamp1) == 'on' and  states(lamp2) == 'on' and  states(lamp3) == 'off' }}"
+          sequence:
+            - service: light.turn_off
+              data:
+                entity_id:
+                  - "{{lamp2}}"
+            - service: light.turn_on
+              data:
+                entity_id:
+                  - "{{lamp3}}"
+        - conditions: "{{ states(lamp1) == 'on' and  states(lamp2) == 'off' and  states(lamp3) == 'on' }}"
+          sequence:
+            - service: light.turn_off
+              data:
+                entity_id:
+                  - "{{lamp1}}"
+            - service: light.turn_on
+              data:
+                entity_id:
+                  - "{{lamp2}}"
+        - conditions: "{{ states(lamp1) == 'off' and  states(lamp2) == 'on' and  states(lamp3) == 'on' }}"
+          sequence:
+            - service: light.turn_off
+              data:
+                entity_id:
+                  - "{{lamp2}}"
+                  - "{{lamp3}}"
+            - service: light.turn_on
+              data:
+                entity_id:
+                  - "{{lamp1}}"
+        - conditions: "{{ states(lamp1) == 'on' and  states(lamp2) == 'off' and  states(lamp3) == 'off' }}"
+          sequence:
+            - service: light.turn_off
+              data:
+                entity_id:
+                  - "{{lamp1}}"
+            - service: light.turn_on
+              data:
+                entity_id:
+                  - "{{lamp2}}"
+        - conditions: "{{ states(lamp1) == 'off' and  states(lamp2) == 'on' and  states(lamp3) == 'off' }}"
+          sequence:
+            - service: light.turn_off
+              data:
+                entity_id:
+                  - "{{lamp2}}"
+            - service: light.turn_on
+              data:
+                entity_id:
+                  - "{{lamp3}}"
+        default:
+          service: light.turn_on
+          data_template:
+            entity_id: 
+              - "{{lamp1}}"
+              - "{{lamp2}}"
+              - "{{lamp3}}"
+    mode: single 
